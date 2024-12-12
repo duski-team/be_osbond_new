@@ -19,6 +19,12 @@ const berita = sq.define('berita', {
     konten_berita: {
         type: DataTypes.TEXT
     },
+    tanggal_awal_berita:{
+        type:DataTypes.DATE
+    },
+    tanggal_akhir_berita:{
+        type:DataTypes.DATE
+    }
 
 },
     {
