@@ -55,7 +55,7 @@ export class Controller {
         }
     }
     static async register(req, res) {
-        const { username, email, password, nama_user, no_hp_user, tanggal_lahir, alamat_user, jenis_kelamin, role, nick_name, available_go, nama_bank, cabang_bank, atas_nama_bank, no_rekening, kode_club, ms_grade_id, nip, kode_referral, rate,nama_club,code_club } = req.body;
+        const { username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member } = req.body;
 
         try {
 
@@ -74,8 +74,8 @@ export class Controller {
                 }
             }
 
-            let status_user = 2
-            let [hasil, created] = await user_m.findOrCreate({ where: { username: [Op.iLike] = nama }, defaults: { id: nanoid(20), password: hashPassword(password ? password : "123"), nama, email, nama_user, no_hp_user, tanggal_lahir, alamat_user, jenis_kelamin, role, nick_name, available_go, status_user, nama_bank, cabang_bank, atas_nama_bank, no_rekening, foto_user: f1, kode_club, ms_grade_id, nip, kode_referral, rate } })
+            // let status_user = 2
+            let [hasil, created] = await user_m.findOrCreate({ where: { username: [Op.iLike] = nama }, defaults: { id: nanoid(20), password: hashPassword(password ? password : "123"), username,email,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member} })
             // console.log(hasil, created)
             if (!created) {
                 res.status(201).json({ status: 204, message: "username sudah terdaftar" })
@@ -88,9 +88,23 @@ export class Controller {
             res.status(500).json({ status: 500, message: "gagal", data: error })
         }
     }
+
+    static async update(req,res){
+        const { id,username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_memberb } = req.body;
+
+        try {
+            let update = await user_m.update({username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member},{where:{id},returning:true})
+            const data = update[1][0].get();
+            res.status(200).json({ status: 200, message: "sukses", data })
+        } catch (error) {
+            console.log(req.body)
+            console.log(error)
+            res.status(500).json({ status: 500, message: "error", data: error })
+        }
+    }
     
     static async list(req, res) {
-        const { halaman, jumlah, email, username, nama_user, no_hp_user, tanggal_lahir, alamat_user, jenis_kelamin, role, nick_name, available_go, status_user, nama_bank, cabang_bank, atas_nama_bank, no_rekening, kode_club, ms_grade_id, nip, kode_referral, rate, kode_member, id } = req.body
+        const { halaman, jumlah, id,username,nama_user,no_hp_user,jenis_kelamin,role,status_user,kode_referral,kode_club,kode_member } = req.body
 
         try {
 
@@ -105,12 +119,6 @@ export class Controller {
             if (no_hp_user) {
                 isi += ` and u.no_hp_user = :no_hp_user`
             }
-            if (tanggal_lahir) {
-                isi += ` and u.tanggal_lahir = :tanggal_lahir`
-            }
-            if (alamat_user) {
-                isi += ` and u.alamat_user = :alamat_user`
-            }
             if (role) {
                 isi += ` and u.role = :role`
             }
@@ -120,41 +128,11 @@ export class Controller {
             if (kode_club) {
                 isi += ` and u.kode_club = :kode_club`
             }
-            if (email) {
-                isi += ` and u.email ilike :email`
-            }
-            if (nick_name) {
-                isi += ` and u.nick_name ilike :nick_name`
-            }
-            if (available_go) {
-                isi += ` and u.available_go = :available_go`
-            }
             if (status_user) {
                 isi += ` and u.status_user = :status_user`
             }
-            if (nama_bank) {
-                isi += ` and u.nama_bank ilike :nama_bank`
-            }
-            if (cabang_bank) {
-                isi += ` and u.cabang_bank ilike :cabang_bank`
-            }
-            if (atas_nama_bank) {
-                isi += ` and u.atas_nama_bank ilike :atas_nama_bank`
-            }
-            if (no_rekening) {
-                isi += ` and u.no_rekening ilike :no_rekening`
-            }
-            if (ms_grade_id) {
-                isi += ` and u.ms_grade_id = :ms_grade_id`
-            }
             if (username) {
                 isi += ` and u.username ilike :username`
-            }
-            if (nip) {
-                isi += ` and u.nip = :nip`
-            }
-            if (rate) {
-                isi += ` and u.rate = :rate`
             }
             if (kode_referral) {
                 isi += ` and u.kode_referral = :kode_referral`
@@ -169,18 +147,14 @@ export class Controller {
 
             let data = await sq.query(`select u.id as "user_id",mg.nama_grade ,mg.level_grade ,mg.deskripsi_grade ,c.nama_club,u.* 
             from "user" u 
-            left join club c on c.id = u.kode_club
-            left join ms_grade mg on mg.id = u.ms_grade_id
             where u."deletedAt" isnull ${isi} order by u.nama_user asc ${isi2}`,
-                tipe({ nama_user: `%${nama_user}%`, username: `%${username}%`, email: `%${email}%`, no_hp_user, tanggal_lahir, alamat_user, role, jenis_kelamin, kode_club, ms_grade_id, nick_name: `%${nick_name}%`, available_go, status_user, nama_bank: `%${nama_bank}%`, cabang_bank: `%${cabang_bank}%`, atas_nama_bank: `%${atas_nama_bank}%`, no_rekening: `%${no_rekening}%`, nip, kode_referral, rate, id: `%${id}%`, offset: (+halaman * jumlah), jumlah: jumlah }))
+                tipe({ offset: (+halaman * jumlah), jumlah, id,nama_user: `%${nama_user}%`,no_hp_user,role,jenis_kelamin,kode_club,status_user,kode_referral,kode_member }))
 
             if (halaman && jumlah) {
                 let jml = await sq.query(`select count(*) as total 
                 from "user" u 
-                left join club c on c.id = u.kode_club
-                left join ms_grade mg on mg.id = u.ms_grade_id
                 where u."deletedAt" isnull ${isi}`,
-                    tipe({ nama_user: `%${nama_user}%`, username: `%${username}%`, email: `%${email}%`, no_hp_user, tanggal_lahir, alamat_user, role, jenis_kelamin, kode_club, ms_grade_id, ick_name: `%${nick_name}%`, available_go, status_user, nama_bank: `%${nama_bank}%`, cabang_bank: `%${cabang_bank}%`, atas_nama_bank: `%${atas_nama_bank}%`, no_rekening: `%${no_rekening}%`, nip, kode_referral, rate, id: `%${id}%` }))
+                    tipe({ id,nama_user: `%${nama_user}%`,no_hp_user,role,jenis_kelamin,kode_club,status_user,kode_referral,kode_member}))
 
                 res.status(200).json({ status: 200, message: "sukses", data: data, count: jml[0].total, jumlah, halaman })
             } else {

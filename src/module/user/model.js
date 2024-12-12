@@ -92,6 +92,9 @@ const user = sq.define('user', {
     },
     nama_club:{
         type:DataTypes.STRING
+    },
+    kode_member:{
+        type:DataTypes.STRING
     }
 },
     {
