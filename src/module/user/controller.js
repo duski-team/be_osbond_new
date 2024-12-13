@@ -1,5 +1,5 @@
 import user_m from './model.js'
-import { sq } from '../../config/connection.js';
+import { sq,osbond } from '../../config/connection.js';
 import { Op } from 'sequelize';
 import { tipe } from '../../helper/type.js';
 import { comparePassword, hashPassword } from '../../helper/bcrypt.js'
@@ -26,6 +26,13 @@ async function createSuperUser() {
     }
 }
 createSuperUser()
+
+// let tes = await osbond.query(`SELECT * FROM APPS_LISTCLUB()`,tipe())
+// tes = tes.recordset
+// console.log(tes);
+
+
+
 export class Controller {
     static async login(req, res) {
         const { username, password } = req.body;

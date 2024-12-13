@@ -5,6 +5,7 @@ import otp from "./module/otp/route.js";
 import banner from "./module/banner/route.js";
 import berita from "./module/berita/route.js";
 import broadcast from "./module/broadcast/route.js";
+import club from "./module/club/route.js"
 
 const router = Router()
 
@@ -14,5 +15,6 @@ router.use('/otp', otp)
 router.use('/banner',banner)
 router.use('/berita',berita)
 router.use('/broadcast',broadcast)
+router.use('/club',club)
 
 export default router
