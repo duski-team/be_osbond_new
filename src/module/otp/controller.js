@@ -6,6 +6,7 @@ import { nanoid } from 'nanoid'
 import moment from 'moment';
 
 
+
 export class Controller{
 
     static async request_otp(req, res){
@@ -111,13 +112,14 @@ export class Controller{
                     u2='0'+username.slice(2)
                 }
             }
-           
+            
           
             // console.log(u1,u2);
             // let data = await sq.query(` select * from "user" u where u."deletedAt" isnull and u.id = '${req.dataUser.id}' `)
             if(id){
                 data = await sq.query(`select * from "user" u where u."deletedAt" isnull and u.id ='${id}'`)
                 check_time= await sq.query(`select EXTRACT(EPOCH FROM (now() - u.expired_otp)) AS cek from "user" u  where u.id ='${id}' and u.kode_otp='${kode_otp}'`)
+        
             }
             else{
                 data = await sq.query(`select * from "user" u where u."deletedAt" isnull and (u.username ='${u1}' or u.username ='${u2}')`)

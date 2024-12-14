@@ -36,6 +36,8 @@ createSuperUser()
 export class Controller {
     static async login(req, res) {
         const { username, password } = req.body;
+        // console.log(req.body);
+        
 
         try {
             let cek_user = await sq.query(`select u.* from "user" u where u.username = :username  and u."deletedAt" isnull`, tipe({ username }))

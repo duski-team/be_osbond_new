@@ -10,7 +10,7 @@ export class Controller {
         try {
             let data = await osbond.query(`SELECT * FROM APPS_LISTCLUB()`,tipe())
             data = data.recordset
-            res.status(200).json({ status: 200, message: "sukses" })
+            res.status(200).json({ status: 200, message: "sukses" ,data})
         } catch (error) {
             console.log(req.body)
             console.log(error)
