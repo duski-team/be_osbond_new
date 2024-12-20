@@ -8,6 +8,7 @@ import broadcast from "./module/broadcast/route.js";
 import club from "./module/club/route.js"
 import foto_club from "./module/foto_club/route.js"
 import pt from "./module/pt/route.js"
+import absensi from "./module/absensi/route.js"
 
 const router = Router()
 
@@ -20,5 +21,6 @@ router.use('/broadcast',broadcast)
 router.use('/club',club)
 router.use('/foto_club',foto_club)
 router.use('/pt',pt)
+router.use('/absensi',absensi)
 
 export default router
