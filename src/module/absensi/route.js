@@ -10,5 +10,7 @@ const router = Router()
 router.post('/register', Controller.register)
 router.post('/update', Controller.update)
 router.post('/list', Controller.list)
+router.post('/total_daily_checkin', Controller.total_daily_checkin)
+
 
 export default router

@@ -113,5 +113,27 @@ export class Controller {
             res.status(500).json({ status: 500, message: "gagal", data: error })
         }
     }
+    static async total_daily_checkin(req, res) {
+        const { kode_club, tanggal_akhir, tanggal_awal } = req.body
+
+        try {
+            let isi = ''
+            if (tanggal_awal) {
+                isi += ` and date(a.check_in) >= :tanggal_awal  `
+            }
+            if (tanggal_akhir) {
+                isi += ` and date(a.check_in) <= :tanggal_akhir  `
+            }
+            if (kode_club) {
+                isi += ` and a.kode_club = :kode_club  `
+            }
+            let data = await sq.query(`select count(*) as total from absensi a where a."deletedAt" isnull ${isi}`, tipe({ kode_club, tanggal_akhir, tanggal_awal }))
+            res.status(200).json({ status: 200, message: "sukses", data })
+        } catch (error) {
+            console.log(req.body)
+            console.log(error)
+            res.status(500).json({ status: 500, message: "gagal", data: error })
+        }
+    }
 
 }
