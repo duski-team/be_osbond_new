@@ -175,6 +175,55 @@ export class Controller {
             res.status(500).json({ status: 500, message: "gagal", data: error })
         }
     }
+
+    static async change_password(req, res) {
+        const { id, username, password_baru } = req.body;
+        try {
+
+            
+
+            let usernya = await sq.query(`select * from "user" u where u."deletedAt" isnull and u.username= '${username}'`)
+
+            if (usernya.length) {
+                await user_m.update({ password: hashPassword(password_baru) }, { where: { id: usernya[0][0].id } })
+            }
+            if (id) {
+                await user_m.update({ password: hashPassword(password_baru) }, { where: { id } })
+            }
+
+            res.status(200).json({ status: 200, message: "sukses" })
+        } catch (error) {
+            console.log(req.body);
+            
+            console.log(error)
+            res.status(500).json({ status: 500, message: "gagal", data: error })
+        }
+    }
+
+    static async reset_password(req, res) {
+        const { kode_otp, username, password_baru } = req.body;
+        try {
+            let data = ''
+            let check_time = ''
+     
+   
+            data = await sq.query(`select * from "user" u where u."deletedAt" isnull and u.username= '${username}'')`)
+            check_time = await sq.query(`select EXTRACT(EPOCH FROM (now() - u.expired_otp)) AS cek from "user" u  where u.kode_otp='${kode_otp}' and and u.username= '${username}'`)
+            console.log(check_time);
+            if (data[0].length == 0) return res.status(201).json({ status: 204, message: "user tidak terdaftar" })
+            if (check_time[0][0].cek >= 0) {
+                return res.status(201).json({ status: 204, message: "sudah melebihi waktu yang di tentukan" })
+            }
+            if (!check_time[0].length) return res.status(201).json({ status: 204, message: "kode otp salah" })
+
+            await user_m.update({ password: hashPassword(password_baru) }, { where: { id: data[0][0].id } })
+            res.status(200).json({ status: 200, message: "sukses" })
+
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({ status: 500, message: "gagal", data: error })
+        }
+    }
     
 
 
