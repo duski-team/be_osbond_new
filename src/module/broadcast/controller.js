@@ -17,7 +17,7 @@ export class Controller {
                 }
             }
 
-            let data = await broadcast_m.create({ id: nanoid(14), nama_broadcast, konten_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima,gambar_broadcast })
+            let data = await broadcast_m.create({ id: nanoid(14), nama_broadcast, konten_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima,gambar_broadcast:f1 })
             res.status(200).json({ status: 200, message: "sukses", data })
 
         } catch (error) {
