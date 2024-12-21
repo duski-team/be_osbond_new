@@ -51,7 +51,7 @@ export class Controller {
                     nama_user:el.NAMA,
                     nik:el.NIK,
                     role:"PT",
-                    kode_club:"SC",
+                    kode_club:el.CLUB,
                     // no_hp_user:el.HP
                 })
              });

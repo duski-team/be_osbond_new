@@ -28,23 +28,23 @@ export class Controller {
     }
 
     static async update(req, res) {
-        const { id, kode_club } = req.body
+        // const { id, kode_club } = req.body
 
-        try {
-            await sq.transaction(async t => {
-                if (req.files) {
-                    if (req.files.file1) {
-                        await foto_club.update({ nama_foto: req.files.file1[0].key }, { where: { id }, transaction: t })
-                    }
-                }
-                let data = await foto_club.update({ nama_berita, status_berita, konten_berita,tanggal_awal_berita,tanggal_akhir_berita }, { where: { id }, transaction: t })
-                res.status(200).json({ status: 200, message: "sukses" });
-            })
-        } catch (error) {
-            console.log(req.body)
-            console.log(error)
-            res.status(500).json({ status: 500, message: "gagal", data: error })
-        }
+        // try {
+        //     await sq.transaction(async t => {
+        //         if (req.files) {
+        //             if (req.files.file1) {
+        //                 await foto_club.update({ nama_foto: req.files.file1[0].key }, { where: { id }, transaction: t })
+        //             }
+        //         }
+        //         let data = await foto_club.update({ nama_berita, status_berita, konten_berita,tanggal_awal_berita,tanggal_akhir_berita }, { where: { id }, transaction: t })
+        //         res.status(200).json({ status: 200, message: "sukses" });
+        //     })
+        // } catch (error) {
+        //     console.log(req.body)
+        //     console.log(error)
+        //     res.status(500).json({ status: 500, message: "gagal", data: error })
+        // }
     }
 
     static async delete(req, res) {
