@@ -224,6 +224,8 @@ export class Controller {
             res.status(500).json({ status: 500, message: "gagal", data: error })
         }
     }
+
+
     
 
 

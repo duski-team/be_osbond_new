@@ -61,7 +61,7 @@ export class Controller {
     }
 
     static async list(req, res) {
-        const { halaman, jumlah, nama_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima } = req.body
+        const { halaman, jumlah,id, nama_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima } = req.body
 
         try {
             let isi = ''
