@@ -147,14 +147,14 @@ export class Controller {
                 isi += ` and u.kode_referral = :kode_referral`
             }
             if (kode_member) {
-                isi += ` and pm.kode_member = :kode_member`
+                isi += ` and u.kode_member = :kode_member`
             }
 
             if (halaman && jumlah) {
                 isi2 += ` offset :offset limit :jumlah`
             }
 
-            let data = await sq.query(`select u.id as "user_id",mg.nama_grade ,mg.level_grade ,mg.deskripsi_grade ,c.nama_club,u.* 
+            let data = await sq.query(`select u.id as "user_id",u.* 
             from "user" u 
             where u."deletedAt" isnull ${isi} order by u.nama_user asc ${isi2}`,
                 tipe({ offset: (+halaman * jumlah), jumlah, id,nama_user: `%${nama_user}%`,no_hp_user,role,jenis_kelamin,kode_club,status_user,kode_referral,kode_member }))
