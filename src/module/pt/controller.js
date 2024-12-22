@@ -25,10 +25,10 @@ export class Controller {
         try {
             let data = await osbond.query(`SELECT * FROM APPS_LISTTRAINER()`,tipe())
             data = data.recordset
-            let detail=``
+            let detail=[]
             data.forEach(el => {        
                if(el.CLUB==club_id){
-                detail=el
+                detail.push(el)
                }
             });
             res.status(200).json({ status: 200, message: "sukses" ,detail})
