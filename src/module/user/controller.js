@@ -225,6 +225,19 @@ export class Controller {
         }
     }
 
+    static async me(req,res){
+        try {
+            let data = await sq.query(`select u.id as "user_id",u.* 
+                from "user" u 
+                where u."deletedAt" isnull and u.id='${req.dataUser.id}'`,
+                    tipe())
+                    res.status(200).json({ status: 200, message: "sukses" ,data})
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({ status: 500, message: "gagal", data: error })
+        }
+    }
+
 
     
 
