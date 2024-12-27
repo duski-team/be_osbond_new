@@ -67,7 +67,10 @@ export class Controller {
         const { username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member } = req.body;
 
         try {
-
+            let kode= nanoid(8)
+            if(kode_referral){
+                kode = kode_referral
+            }
 
             let nama = username
 
@@ -84,7 +87,7 @@ export class Controller {
             }
 
             // let status_user = 2
-            let [hasil, created] = await user_m.findOrCreate({ where: { username: [Op.iLike] = nama }, defaults: { id: nanoid(20), password: hashPassword(password ? password : "123"), username,email,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member} })
+            let [hasil, created] = await user_m.findOrCreate({ where: { username: [Op.iLike] = nama }, defaults: { id: nanoid(20), password: hashPassword(password ? password : "123"), username,email,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral:kode, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member} })
             // console.log(hasil, created)
             if (!created) {
                 res.status(201).json({ status: 204, message: "username sudah terdaftar" })
