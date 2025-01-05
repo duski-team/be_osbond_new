@@ -13,5 +13,6 @@ router.post('/change_password', Controller.change_password)
 router.post('/reset_password', Controller.reset_password)
 router.post('/me',authentification, Controller.me)
 router.post('/list_member_aktif',authentification, Controller.list_member_aktif)
+router.post('/member_by_code',authentification, Controller.member_by_code)
 
 export default router

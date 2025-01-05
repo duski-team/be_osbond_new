@@ -243,7 +243,21 @@ export class Controller {
 
     static async list_member_aktif(req,res){
         try {
-            let data = await osbond.query(`select * from m_member with(index(member_idx)) where sts_member = 1 or (sts_member = 0 and sts_remark = 'CUTI')`)
+            let asd = await osbond.query(`select * from m_member with(index(member_idx)) where sts_member = 1 or (sts_member = 0 and sts_remark = 'CUTI')`)
+            let data = asd.recordset
+            
+            res.status(200).json({ status: 200, message: "sukses", data })
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({ status: 500, message: "error", data: error })
+        }
+    }
+
+    static async member_by_code(req,res){
+        const{kode_member}=req.body
+        try {
+            let asd = await osbond.query(`SELECT * FROM APPS_DATA_MMEMBER ('${kode_member}')`)
+            let data = asd.recordset
             
             res.status(200).json({ status: 200, message: "sukses", data })
         } catch (error) {
