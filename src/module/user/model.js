@@ -31,7 +31,7 @@ const user = sq.define('user', {
         type: DataTypes.STRING // laki_laki = L, perempuan = P
     },
     role: {
-        type: DataTypes.STRING // super_admin,manajer,supervisor,sales,personal_trainer,member_aktif,member_non_aktif,non_member
+        type: DataTypes.STRING // super_admin,manajer,supervisor,sales,personal_trainer,member_aktif,member_non_aktif,guest
     },
     nick_name: {
         type: DataTypes.STRING

@@ -52,7 +52,7 @@ export class Controller {
         const{lat,long}=req.body
         try {
             
-            let jarak = await sq.query(`EXEC APPS_DISTANCE '${lat}','${long}'`)
+            let jarak = await osbond.query(`EXEC APPS_DISTANCE '${lat}','${long}'`)
             let data= jarak.recordset
             res.status(200).json({ status: 200, message: "sukses" ,data})
         } catch (error) {
