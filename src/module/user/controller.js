@@ -267,6 +267,20 @@ export class Controller {
     }
 
 
+    static async search(req,res){
+        const{parameter}=req.body
+
+        try {
+            let asd = await osbond.query(`EXEC APPS_LISTMEMBER '${parameter}'`)
+            let data = asd.recordset
+            res.status(200).json({ status: 200, message: "sukses", data })
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({ status: 500, message: "error", data: error })
+        }
+    }
+
+
     
 
 

@@ -14,5 +14,6 @@ router.post('/reset_password', Controller.reset_password)
 router.post('/me',authentification, Controller.me)
 router.post('/list_member_aktif',authentification, Controller.list_member_aktif)
 router.post('/member_by_code', Controller.member_by_code)
+router.post('/search',authentification,Controller.search)
 
 export default router
