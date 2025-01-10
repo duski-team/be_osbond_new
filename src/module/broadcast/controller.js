@@ -7,7 +7,7 @@ import broadcast_m from './model.js'
 export class Controller {
 
     static async register(req, res) {
-        const { nama_broadcast, konten_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima } = req.body
+        const { nama_broadcast, konten_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima,usia_awal,usia_akhir } = req.body
 
         try {
             let f1
@@ -17,7 +17,7 @@ export class Controller {
                 }
             }
 
-            let data = await broadcast_m.create({ id: nanoid(14), nama_broadcast, konten_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima,gambar_broadcast:f1 })
+            let data = await broadcast_m.create({ id: nanoid(14), nama_broadcast, konten_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima,gambar_broadcast:f1,usia_awal,usia_akhir })
             res.status(200).json({ status: 200, message: "sukses", data })
 
         } catch (error) {
@@ -28,7 +28,7 @@ export class Controller {
     }
 
     static async update(req, res) {
-        const { id, nama_broadcast, konten_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima } = req.body
+        const { id, nama_broadcast, konten_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima,usia_awal,usia_akhir } = req.body
 
         try {
             await sq.transaction(async t => {
@@ -37,7 +37,7 @@ export class Controller {
                         await broadcast_m.update({ gambar_broadcast: req.files.file1[0].key }, { where: { id }, transaction: t })
                     }
                 }
-                let data = await broadcast_m.update({ nama_broadcast, konten_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima }, { where: { id }, transaction: t })
+                let data = await broadcast_m.update({ nama_broadcast, konten_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima,usia_awal,usia_akhir }, { where: { id }, transaction: t })
                 res.status(200).json({ status: 200, message: "sukses" });
             })
         } catch (error) {

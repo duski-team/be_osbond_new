@@ -23,8 +23,14 @@ const broadcast = sq.define('broadcast', {
         type:DataTypes.DATE
     },
     tipe_penerima:{
-        type:DataTypes.STRING            //member aktif, non aktif, Usia, gender, sudah_beli_pt, belum_beli_pt
-    }
+        type:DataTypes.STRING            //member aktif, non aktif, Usia, gender, sudah_beli_pt, belum_beli_pt // PT, sales, admin    
+    },
+    usia_awal:{
+        type:DataTypes.INTEGER
+    },
+    usia_akhir:{
+        type:DataTypes.INTEGER
+    }                                           
 
 },
     {
