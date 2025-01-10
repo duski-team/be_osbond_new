@@ -76,7 +76,7 @@ export class Controller {
 
            
 
-            let data = await sq.query(`select * from referall r where r."deletedAt" isull ${isi} order by r."createdAt" desc ${isi2}`,
+            let data = await sq.query(`select r.*, u1.nama_user, u2.nama_user from referall r join user u1 on r.pengguna_referall_id = u1.id join user u2 on r.user_referall_id = u2.id where r."deletedAt" isull ${isi} order by r."createdAt" desc ${isi2}`,
                 tipe({ nama_banner: `%${nama_banner}%`, status_banner, offset: (+halaman * jumlah), jumlah: jumlah }))
             if (halaman && jumlah) {
                 let jml = await sq.query(`select count(*) as "total" from referall r where r."deletedAt" isull  ${isi}`, tipe({ nama_banner: `%${nama_banner}%`, status_banner }))
