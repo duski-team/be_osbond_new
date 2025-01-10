@@ -6,6 +6,7 @@ import { comparePassword, hashPassword } from '../../helper/bcrypt.js'
 import { generateToken } from '../../helper/jwt.js';
 import { nanoid } from 'nanoid'
 import moment from 'moment';
+import referall from '../referall/model.js';
 
 moment.updateLocale('id', {/**/ });
 moment.locale("id")
@@ -64,7 +65,7 @@ export class Controller {
         }
     }
     static async register(req, res) {
-        const { username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member } = req.body;
+        const { username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member,kode_referall_tujuan } = req.body;
 
         let no_hp_08 = username
         if (username[0] == 0) {
@@ -92,7 +93,7 @@ export class Controller {
                 }
             }
 
-            console.log(req.body);
+            // console.log(req.body);
             
             let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_lahir}','${email}','${jenis_kelamin}'`)
        
@@ -100,13 +101,26 @@ export class Controller {
             if(sync.recordset){
                 await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
 
+
                 
             // let status_user = 2
             let [hasil, created] = await user_m.findOrCreate({ where: { username: username }, defaults: { id: nanoid(20), password: hashPassword(password ? password : "123"), username,email,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral:kode, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member} })
             // console.log(hasil, created)
+
+          
             if (!created) {
                 res.status(201).json({ status: 204, message: "username sudah terdaftar" })
             } else {
+
+                if(kode_referall_tujuan){
+                    let user_referall=await sq.query(`select * from "user" u where u."deletedAt" isnull and u.kode_referral = '${kode_referall_tujuan}'`,tipe())
+                    if(user_referall.length){
+                        await referall.create({ id: nanoid(14), pengguna_referall_id:hasil.id, kode_referall:kode_referall_tujuan, tanggal_referall:moment(),user_referall_id:user_referall[0].id })
+                    }
+
+                  
+                }
+    
                 res.status(200).json({ status: 200, message: "sukses", data: hasil })
             }
             }

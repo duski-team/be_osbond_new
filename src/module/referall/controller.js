@@ -76,7 +76,7 @@ export class Controller {
 
            
 
-            let data = await sq.query(`select r.*, u1.nama_user, u2.nama_user from referall r join user u1 on r.pengguna_referall_id = u1.id join user u2 on r.user_referall_id = u2.id where r."deletedAt" isull ${isi} order by r."createdAt" desc ${isi2}`,
+            let data = await sq.query(`select r.*, u1.nama_user, u2.nama_user from referall r join "user" u1 on r.pengguna_referall_id = u1.id join "user" u2 on r.user_referall_id = u2.id where r."deletedAt" isnull ${isi} order by r."createdAt" desc ${isi2}`,
                 tipe({ nama_banner: `%${nama_banner}%`, status_banner, offset: (+halaman * jumlah), jumlah: jumlah }))
             if (halaman && jumlah) {
                 let jml = await sq.query(`select count(*) as "total" from referall r where r."deletedAt" isull  ${isi}`, tipe({ nama_banner: `%${nama_banner}%`, status_banner }))
@@ -92,7 +92,17 @@ export class Controller {
     }
 
     static async referall_terbanyak(req,res){
-        
+        try {
+            let data = await sq.query(`select count(*),u2.nama_user from referall r join "user" u1 on r.pengguna_referall_id = u1.id 
+            join "user" u2 on r.user_referall_id = u2.id where r."deletedAt" isnull group by u2.nama_user order by count(*) desc `)
+
+            res.status(200).json({ status: 200, message: "sukses", data })
+                        
+
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({ status: 500, message: "gagal", data: error })
+        }
     }
 
 }
