@@ -1,4 +1,4 @@
-import { sq } from '../../config/connection.js';
+import { osbond, sq } from '../../config/connection.js';
 import { Op } from 'sequelize';
 import { tipe } from '../../helper/type.js';
 import { nanoid } from 'nanoid'
@@ -7,27 +7,43 @@ import moment from 'moment';
 moment.updateLocale('id', {/**/ });
 moment.locale("id")
 
+// let asd = await osbond.query(`EXEC APPS_CHECKINCLUB 'BSR','085892626888'`)
+
+// console.log(asd.recordset.length);
+
+
 
 export class Controller {
 
     static async register(req,res){
         try {
-            let { user_id, kode_club } = req.body;
+            let { user_id, kode_club,no_hp } = req.body;
             let tanggal = moment()
             // let jam_sekarang = moment().add(7, 'hours').format('HH:mm')
             let tanggal_sekarang = moment().add(7, 'hours').format('YYYY/MM/DD')
             let type=''
-            let cek_absensi = await sq.query(`select * from absensi a where a."deletedAt" isnull  and a.user_id = :user_id and date(a.check_in) = :tanggal and a.check_out isnull and a.kode_club = :kode_club`, tipe({ user_id, tanggal: tanggal_sekarang, kode_club }))
 
-            if (cek_absensi.length > 0) {
-                type = 'check_out'
-                await absensi_m.update({ check_out: tanggal }, { where: { id: cek_absensi[0].id } })
-            } else {
-                type = 'check_in'
-                await absensi_m.create({ id: nanoid(14), check_in: tanggal, kode_club, user_id })
+
+            let cek_availability= await osbond.query(`EXEC APPS_CHECKINCLUB '${kode_club}','${no_hp}'`)
+
+            if(cek_availability.recordset.length){
+                let cek_absensi = await sq.query(`select * from absensi a where a."deletedAt" isnull  and a.user_id = :user_id and date(a.check_in) = :tanggal and a.check_out isnull and a.kode_club = :kode_club`, tipe({ user_id, tanggal: tanggal_sekarang, kode_club }))
+
+                if (cek_absensi.length > 0) {
+                    type = 'check_out'
+                    await absensi_m.update({ check_out: tanggal }, { where: { id: cek_absensi[0].id } })
+                } else {
+                    type = 'check_in'
+                    await absensi_m.create({ id: nanoid(14), check_in: tanggal, kode_club, user_id })
+                }
+    
+                res.status(200).json({ status: 200, message: "sukses" })
+            }
+            else{
+                res.status(201).json({ status: 204, message: "bukan member club" })
             }
 
-            res.status(200).json({ status: 200, message: "sukses" })
+           
         } catch (error) {
             console.log(req.body)
             console.log(error)

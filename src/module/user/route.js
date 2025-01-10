@@ -15,5 +15,8 @@ router.post('/me',authentification, Controller.me)
 router.post('/list_member_aktif',authentification, Controller.list_member_aktif)
 router.post('/member_by_code', Controller.member_by_code)
 router.post('/search',authentification,Controller.search)
+router.post('/list_pembelian_produk',authentification,Controller.list_pembelian_produk)
+router.post('/list_pembelian_pt',authentification,Controller.list_pembelian_pt)
+
 
 export default router
