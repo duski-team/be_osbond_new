@@ -66,6 +66,10 @@ export class Controller {
     static async register(req, res) {
         const { username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member } = req.body;
 
+        let no_hp_08 = username
+        if (username[0] == 0) {
+            no_hp_08 = '62' + username.slice(1)
+        }
         
 
         try {
@@ -74,13 +78,13 @@ export class Controller {
                 kode = kode_referral
             }
 
-            let nama = username
+            // let nama = username
 
-            if (role == 'sales') {
-                nama = nama_user
-                // password = 'sales123'
+            // if (role == 'sales') {
+            //     nama = nama_user
+            //     // password = 'sales123'
 
-            }
+            // }
             let f1
             if (req.files) {
                 if (req.files.file1) {
@@ -90,15 +94,15 @@ export class Controller {
 
             console.log(req.body);
             
-            let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_user}','${alamat_user}','${tanggal_lahir}','${email}','${jenis_kelamin}'`)
+            let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_lahir}','${email}','${jenis_kelamin}'`)
        
 
             if(sync.recordset){
-                let claim_free_trial = await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_user}'`)
+                let claim_free_trial = await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
 
                 
             // let status_user = 2
-            let [hasil, created] = await user_m.findOrCreate({ where: { username: [Op.iLike] = nama }, defaults: { id: nanoid(20), password: hashPassword(password ? password : "123"), username,email,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral:kode, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member} })
+            let [hasil, created] = await user_m.findOrCreate({ where: { username: username }, defaults: { id: nanoid(20), password: hashPassword(password ? password : "123"), username,email,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral:kode, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member} })
             // console.log(hasil, created)
             if (!created) {
                 res.status(201).json({ status: 204, message: "username sudah terdaftar" })
