@@ -98,7 +98,7 @@ export class Controller {
        
 
             if(sync.recordset){
-                let claim_free_trial = await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
+                await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
 
                 
             // let status_user = 2
