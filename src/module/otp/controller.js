@@ -46,7 +46,7 @@ export class Controller{
                 no_hp='62'+ no_hp.slice(1)
             }
 
-            console.log(no_hp);
+            // console.log(no_hp);
             
             const options = {
                 method: 'POST',
@@ -57,7 +57,7 @@ export class Controller{
                   'content-type': 'application/json'
                 },
                 body: JSON.stringify({
-                  msisdn: no_hp,
+                  msisdn: '6289506373551',
                   otp: otp,
                   lang_code: 'en_US',
                   template_name: 'otp_auth'

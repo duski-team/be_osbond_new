@@ -91,5 +91,9 @@ export class Controller {
         }
     }
 
+    static async referall_terbanyak(req,res){
+        
+    }
+
 }
 
