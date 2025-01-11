@@ -2,21 +2,21 @@ import { sq } from '../../config/connection.js';
 import { DataTypes } from 'sequelize';
 
 
-const referall = sq.define('referall', {
+const referral = sq.define('referral', {
     id: {
         type: DataTypes.STRING,
         primaryKey: true,
     },
-    pengguna_referall_id:{
+    pengguna_referral_id:{
         type:DataTypes.STRING
     },
-    kode_referall:{
+    kode_referral:{
         type:DataTypes.STRING
     },
-    tanggal_referall:{
+    tanggal_referral:{
         type:DataTypes.DATE
     },
-    user_referall_id:{
+    user_referral_id:{
         type:DataTypes.STRING
     }
 
@@ -29,7 +29,7 @@ const referall = sq.define('referall', {
 
 
 
-export default referall
+export default referral
 
 
 

@@ -6,7 +6,7 @@ import { comparePassword, hashPassword } from '../../helper/bcrypt.js'
 import { generateToken } from '../../helper/jwt.js';
 import { nanoid } from 'nanoid'
 import moment from 'moment';
-import referall from '../referall/model.js';
+import referall from '../referral/model.js';
 
 moment.updateLocale('id', {/**/ });
 moment.locale("id")
@@ -78,6 +78,10 @@ export class Controller {
             let kode= nanoid(8)
             if(kode_referral){
                 kode = kode_referral
+                let data = await sq.query(`select * from "user" u where u."deletedAt" isnull and u.kode_referral =:kode_referral`,tipe({kode_referral}))
+                if(data.length){
+                    return  res.status(201).json({ status: 204, message: "kode referral sudah ada" })
+                }
             }
 
             // let nama = username
@@ -117,19 +121,29 @@ export class Controller {
             if (!created) {
                 res.status(201).json({ status: 204, message: "username sudah terdaftar" })
             } else {
+                console.log('else');
+                
                 let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_string}','${email}','${jenis_kelamin}'`)
                 let trial= await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
+
+                console.log(sync,'ini sync');
+                console.log(trial,'trial');
+                
+                
 
                 if(kode_referall_tujuan){
                     let user_referall=await sq.query(`select * from "user" u where u."deletedAt" isnull and u.kode_referral = '${kode_referall_tujuan}'`,tipe())
                     if(user_referall.length){
                         await referall.create({ id: nanoid(14), pengguna_referall_id:hasil.id, kode_referall:kode_referall_tujuan, tanggal_referall:moment(),user_referall_id:user_referall[0].id })
                     }
-
+                    res.status(200).json({ status: 200, message: "sukses", data: hasil })
                   
                 }
+                else{
+                    res.status(200).json({ status: 200, message: "sukses", data: hasil })
+                }
     
-                res.status(200).json({ status: 200, message: "sukses", data: hasil })
+              
             }
             // }
             // else{

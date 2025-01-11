@@ -9,7 +9,7 @@ import club from "./module/club/route.js"
 import foto_club from "./module/foto_club/route.js"
 import pt from "./module/pt/route.js"
 import absensi from "./module/absensi/route.js"
-import referall from "./module/referall/route.js"
+import referral from "./module/referral/route.js"
 
 const router = Router()
 
@@ -23,6 +23,6 @@ router.use('/club',club)
 router.use('/foto_club',foto_club)
 router.use('/pt',pt)
 router.use('/absensi',absensi)
-router.use('/referall',referall)
+router.use('/referral',referral)
 
 export default router
