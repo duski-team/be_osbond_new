@@ -111,7 +111,7 @@ export class Controller {
             // if(sync.recordset){
               
 
-            console.log(y);
+            console.log(tanggal_string);
             
                 
             // let status_user = 2
@@ -122,13 +122,13 @@ export class Controller {
             if (!created) {
                 res.status(201).json({ status: 204, message: "username sudah terdaftar" })
             } else {
-                console.log('else');
+                // console.log('else');
                 
                 let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_string}','${email}','${jenis_kelamin}'`)
-                let trial= await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
+                // let trial= await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
 
-                console.log(sync,'ini sync');
-                console.log(trial,'trial');
+                // console.log(sync,'ini sync');
+                // console.log(trial,'trial');
                 
                 
 
