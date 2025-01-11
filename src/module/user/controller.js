@@ -68,8 +68,9 @@ export class Controller {
         const { username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member,kode_referall_tujuan } = req.body;
 
         let no_hp_08 = username
-        if (username[0] == 0) {
-            no_hp_08 = '62' + username.slice(1)
+        let b = no_hp_08.slice(0,2)
+        if (b == '62') {
+            no_hp_08 = '0' + a.slice(2)
         }
         
 
@@ -93,13 +94,18 @@ export class Controller {
                 }
             }
 
-            // console.log(req.body);
+            // console.log(no_hp_08);
             
-            let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_lahir}','${email}','${jenis_kelamin}'`)
+            let y = tanggal_lahir.split('-')
+            let tanggal_string = y[0]+y[1]+y[2]
        
+            // console.log(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_lahir}','${email}','${jenis_kelamin}'`);
+            
+            // console.log(sync);
+            
 
-            if(sync.recordset){
-                await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
+            // if(sync.recordset){
+              
 
 
                 
@@ -111,6 +117,8 @@ export class Controller {
             if (!created) {
                 res.status(201).json({ status: 204, message: "username sudah terdaftar" })
             } else {
+                let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_string}','${email}','${jenis_kelamin}'`)
+                let trial= await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
 
                 if(kode_referall_tujuan){
                     let user_referall=await sq.query(`select * from "user" u where u."deletedAt" isnull and u.kode_referral = '${kode_referall_tujuan}'`,tipe())
@@ -123,10 +131,10 @@ export class Controller {
     
                 res.status(200).json({ status: 200, message: "sukses", data: hasil })
             }
-            }
-            else{
-                res.status(500).json({ status: 500, message: "error sync" })
-            }
+            // }
+            // else{
+            //     res.status(500).json({ status: 500, message: "error sync" })
+            // }
             
 
         } catch (error) {
@@ -317,6 +325,8 @@ export class Controller {
 
         try {
             let asd = await osbond.query(`EXEC APPS_LISTMEMBER '${parameter}','${jumlah}','${halaman}'`)
+            console.log(`EXEC APPS_LISTMEMBER '${parameter}','${jumlah}','${halaman}'`);
+            
             let data = asd.recordset
             res.status(200).json({ status: 200, message: "sukses", data })
         } catch (error) {
