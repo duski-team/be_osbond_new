@@ -8,6 +8,7 @@ const router = Router()
 
 router.post('/login', Controller.login)
 router.post('/register', uploadImage, Controller.register)
+router.post('/change_profil_picture', uploadImage, Controller.change_profil_picture)
 router.post('/update', Controller.update)
 router.post('/list', Controller.list)
 router.post('/change_password', Controller.change_password)

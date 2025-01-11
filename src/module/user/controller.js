@@ -369,7 +369,15 @@ export class Controller {
     static async change_profil_picture(req,res){
         const{username}=req.body
         try {
-            
+            let f1
+            if (req.files) {
+                if (req.files.file1) {
+                    f1 = req.files.file1[0].key;
+                }
+            }
+
+            await user_m.update({foto_user:f1},{where:{username}})
+            res.status(200).json({ status: 200, message: "sukses" })
         } catch (error) {
             
         }
