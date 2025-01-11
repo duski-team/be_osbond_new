@@ -111,7 +111,8 @@ export class Controller {
             // if(sync.recordset){
               
 
-
+            console.log(y);
+            
                 
             // let status_user = 2
             let [hasil, created] = await user_m.findOrCreate({ where: { username: username }, defaults: { id: nanoid(20), password: hashPassword(password ? password : "123"), username,email,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user:f1,kode_referral:kode, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member} })
