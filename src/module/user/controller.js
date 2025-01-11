@@ -65,7 +65,7 @@ export class Controller {
         }
     }
     static async register(req, res) {
-        const { username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member,kode_referall_tujuan } = req.body;
+        const { username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member,kode_referall_tujuan } = req.body;
 
         let no_hp_08 = username
         let b = no_hp_08.slice(0,2)
@@ -110,7 +110,7 @@ export class Controller {
 
                 
             // let status_user = 2
-            let [hasil, created] = await user_m.findOrCreate({ where: { username: username }, defaults: { id: nanoid(20), password: hashPassword(password ? password : "123"), username,email,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral:kode, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member} })
+            let [hasil, created] = await user_m.findOrCreate({ where: { username: username }, defaults: { id: nanoid(20), password: hashPassword(password ? password : "123"), username,email,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user:f1,kode_referral:kode, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member} })
             // console.log(hasil, created)
 
           
@@ -363,6 +363,15 @@ export class Controller {
         } catch (error) {
             console.log(error)
             res.status(500).json({ status: 500, message: "error", data: error })
+        }
+    }
+
+    static async change_profil_picture(req,res){
+        const{username}=req.body
+        try {
+            
+        } catch (error) {
+            
         }
     }
 
