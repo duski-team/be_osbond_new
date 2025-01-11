@@ -70,7 +70,7 @@ export class Controller {
         let no_hp_08 = username
         let b = no_hp_08.slice(0,2)
         if (b == '62') {
-            no_hp_08 = '0' + a.slice(2)
+            no_hp_08 = '0' + no_hp_08.slice(2)
         }
         
 
