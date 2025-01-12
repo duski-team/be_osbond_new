@@ -6,7 +6,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-console.log(serviceAccount,'asd');
+// console.log(serviceAccount,'asd');
 
 
 //contoh
@@ -66,7 +66,7 @@ function kirim_notif(judul, isi,token=[], gambar=null) {
 
     if(token.length){
         message.tokens = token
-           admin.messaging().sendMulticast(message)
+           admin.messaging().sendEachForMulticast(message)
       .then((response) => {
         // Response is a message ID string.
         console.log('Successfully sent message:', JSON.stringify(response));
