@@ -27,7 +27,7 @@ export class Controller {
             // let penerima = await sq.query(`select * from ""`)
             let fcm_id=['cGm1WS_CSDy0ZsxjCnIshU:APA91bHMq2fq7psKkFaDRFa7bnEgVucwC-LnVlugmOtQC2KP68fG4GqsadL78UynUJ1ZDM649xe28JW3gg2lNL1W6ZHQaYg_lOE0pdTs8GjNCk37LgwDImw','esq-pvAQR-iwbFG9jHSC81:APA91bFjkR2Pl9obvH_7RtJ_W35vhKhUG2yocNmU7QfHRDHmST2ZU2RjtfVCsg982LuPsDLs3uWz_bzsXN3XoEyfRm3-ls6UL4XSbavfB345--U3Z5MnoMU']
 
-            kirim_notif(`${nama_broadcast}','${konten_broadcast}',${fcm_id}`)
+            kirim_notif(nama_broadcast,konten_broadcast)
 
             res.status(200).json({ status: 200, message: "sukses", data })
 

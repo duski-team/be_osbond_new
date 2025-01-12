@@ -6,6 +6,9 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
+console.log(serviceAccount,'asd');
+
+
 //contoh
 // const registrationToken = 'eu88pvA4DUjvrjzYpaZPg6:APA91bGqv-VL0EiqnLOvduDtPS5nOUVX6pnrdsFhh7JY7uPabzsfzzrl_1Azy3SXS7Zth0UDUhdcBd4ZOxmhcwIWrjL-41-GsH8lrNniFRbWDjRDTSKv252Y4ysopadK1rBnHBYUf5Cc';
 
