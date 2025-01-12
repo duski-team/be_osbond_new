@@ -108,9 +108,9 @@ export class Controller {
                 res.status(201).json({ status: 204, message: "username sudah terdaftar" })
             } else {
                 // console.log('else');
-                let asd = await osbond.query(`EXEC APPS_LISTMEMBER '${parameter}','10','1'`)
+                
 
-                if(asd.recordset.length==0){
+                if(kode_member){
                     let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_string}','${email}','${jenis_kelamin}'`)
                 }
                 
