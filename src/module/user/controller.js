@@ -7,6 +7,7 @@ import { generateToken } from '../../helper/jwt.js';
 import { nanoid } from 'nanoid'
 import moment from 'moment';
 import referral from '../referral/model.js';
+import kirim_notif from '../../helper/fcm.js'
 
 moment.updateLocale('id', {/**/ });
 moment.locale("id")
@@ -389,6 +390,34 @@ export class Controller {
 
             await user_m.update({foto_user:f1},{where:{username}})
             res.status(200).json({ status: 200, message: "sukses" })
+        } catch (error) {
+            
+        }
+    }
+
+
+    static async change_username(req,res){
+        const{username_lama,username_baru}=req.body
+
+        try {
+            let no_hp_08 = username_baru
+            let b = no_hp_08.slice(0,2)
+            if (b == '62') {
+                no_hp_08 = '0' + no_hp_08.slice(2)
+            }
+            let update = await sq.query(`select * "user" u where u."deletedAt" isnull and u.username = '${username_lama}'`,tipe())
+
+            if(update.length){
+                await user_m.update({username:username_baru,no_hp_user:username_baru},{where:{id:update[0].id}})
+                let update_osbond = await osbond.query(`EXEC APPS_UPDATEGUEST '${update[0].nama_user}','${no_hp_08}','${update[0].alamat_user}','${update[0].tanggal_lahir}','${update[0].email}','${update[0].jenis_kelamin}'`)
+                const data = update[1][0].get();
+                res.status(200).json({ status: 200, message: "sukses", data })
+            }
+            else{
+                res.status(201).json({ status: 204, message: "user belum terdaftar" })
+            }
+
+
         } catch (error) {
             
         }

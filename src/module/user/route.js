@@ -19,6 +19,7 @@ router.post('/member_by_code', Controller.member_by_code)
 router.post('/search',authentification,Controller.search)
 router.post('/list_pembelian_produk',authentification,Controller.list_pembelian_produk)
 router.post('/list_pembelian_pt',authentification,Controller.list_pembelian_pt)
+router.post('/change_username',authentification,Controller.change_username)
 
 
 export default router

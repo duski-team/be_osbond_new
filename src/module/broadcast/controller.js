@@ -24,8 +24,9 @@ export class Controller {
 
 
             // let penerima = await sq.query(`select * from ""`)
+            let fcm_id=[]
 
-
+            kirim_notif(`${nama_broadcast}','${konten_broadcast}',${fcm_id}`)
 
             res.status(200).json({ status: 200, message: "sukses", data })
 
