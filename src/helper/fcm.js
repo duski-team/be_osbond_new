@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 
-import serviceAccount from "../../osbond-a84da-firebase-adminsdk-6wj4t-71d569e14e.json" assert { type: "json" };
+import serviceAccount from "../../tes.json" assert { type: "json" };
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)

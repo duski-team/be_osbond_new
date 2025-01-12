@@ -1,3 +1,6 @@
+import { sq } from "./src/config/connection.js";
+import { tipe } from "./src/helper/type.js";
+
 let no_hp_08 = '6285877080555'
         let b = no_hp_08.slice(0,2)
         if (b == '62') {
@@ -7,7 +10,12 @@ let no_hp_08 = '6285877080555'
         console.log(no_hp_08);
         
 
-// let x = '2020-11-10'
-// let y = x.split('-')
-// let z = y[0]+y[1]+y[2]
-// console.log(z);
+        let penerima = await sq.query(`select * from "user" u where u."deletedAt"isnull and u.token_mobile notnull`,tipe())
+        let fcm_id=[]
+
+        penerima.forEach(el => {
+            fcm_id.push(el.token_mobile)
+        });
+
+        console.log(fcm_id);
+        
