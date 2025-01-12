@@ -95,6 +95,9 @@ const user = sq.define('user', {
     },
     kode_member:{
         type:DataTypes.STRING
+    },
+    token_mobile:{
+        type:DataTypes.STRING
     }
 },
     {

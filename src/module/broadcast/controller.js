@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import { tipe } from '../../helper/type.js';
 import { nanoid } from 'nanoid'
 import broadcast_m from './model.js'
+import penerima_broadcast from '../penerima_broadcast/model.js';
 
 export class Controller {
 
@@ -18,6 +19,14 @@ export class Controller {
             }
 
             let data = await broadcast_m.create({ id: nanoid(14), nama_broadcast, konten_broadcast,tanggal_awal_broadcast,tanggal_akhir_broadcast,tipe_penerima,gambar_broadcast:f1,usia_awal,usia_akhir })
+
+            let isi =''
+
+
+            // let penerima = await sq.query(`select * from ""`)
+
+
+
             res.status(200).json({ status: 200, message: "sukses", data })
 
         } catch (error) {
