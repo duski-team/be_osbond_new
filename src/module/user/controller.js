@@ -355,8 +355,14 @@ export class Controller {
 
     static async list_pembelian_produk(req,res){
         const{username}=req.body
+        let no_hp_08 = username
+        let b = no_hp_08.slice(0,2)
+        if (b == '62') {
+            no_hp_08 = '0' + no_hp_08.slice(2)
+        }
+
         try {
-            let asd = await osbond.query(`select * from APPS_MSHIP_HIST ('${username}')`)
+            let asd = await osbond.query(`select * from APPS_MSHIP_HIST ('${no_hp_08}')`)
             let data = asd.recordset
             res.status(200).json({ status: 200, message: "sukses", data })
 
@@ -368,8 +374,15 @@ export class Controller {
 
     static async list_pembelian_pt(req,res){
         const{username}=req.body
+
+        let no_hp_08 = username
+        let b = no_hp_08.slice(0,2)
+        if (b == '62') {
+            no_hp_08 = '0' + no_hp_08.slice(2)
+        }
+
         try {
-            let asd = await osbond.query(`select * from APPS_PT_HIST ('${username}')`)
+            let asd = await osbond.query(`select * from APPS_PT_HIST ('${no_hp_08}')`)
             let data = asd.recordset
             res.status(200).json({ status: 200, message: "sukses", data })
         } catch (error) {
