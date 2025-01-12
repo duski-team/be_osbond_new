@@ -83,32 +83,16 @@ export class Controller {
                     return  res.status(201).json({ status: 204, message: "kode referral sudah ada" })
                 }
             }
-
-            // let nama = username
-
-            // if (role == 'sales') {
-            //     nama = nama_user
-            //     // password = 'sales123'
-
-            // }
             let f1
             if (req.files) {
                 if (req.files.file1) {
                     f1 = req.files.file1[0].key;
                 }
             }
-
-            // console.log(no_hp_08);
             
             let y = tanggal_lahir.split('-')
             let tanggal_string = y[0]+y[1]+y[2]
        
-            // console.log(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_lahir}','${email}','${jenis_kelamin}'`);
-            
-            // console.log(sync);
-            
-
-            // if(sync.recordset){
               
 
             console.log(tanggal_string);
@@ -123,8 +107,13 @@ export class Controller {
                 res.status(201).json({ status: 204, message: "username sudah terdaftar" })
             } else {
                 // console.log('else');
+                let asd = await osbond.query(`EXEC APPS_LISTMEMBER '${parameter}','10','1'`)
+
+                if(asd.recordset.length==0){
+                    let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_string}','${email}','${jenis_kelamin}'`)
+                }
                 
-                let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_string}','${email}','${jenis_kelamin}'`)
+              
                 // let trial= await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
 
                 // console.log(sync,'ini sync');
