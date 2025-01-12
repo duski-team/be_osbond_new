@@ -198,6 +198,9 @@ export class Controller {
             if (id) {
                 isi += ` and u.id ilike :id`
             }
+            if (username) {
+                isi += ` and u.username ilike :username`
+            }
             if (nama_user) {
                 isi += ` and u.nama_user ilike :nama_user`
             }
@@ -233,13 +236,13 @@ export class Controller {
             let data = await sq.query(`select u.id as "user_id",u.* 
             from "user" u 
             where u."deletedAt" isnull ${isi} order by u.nama_user asc ${isi2}`,
-                tipe({ offset: (+halaman * jumlah), jumlah, id,nama_user: `%${nama_user}%`,no_hp_user,role,jenis_kelamin,kode_club,status_user,kode_referral,kode_member }))
+                tipe({ offset: (+halaman * jumlah), jumlah, id,nama_user: `%${nama_user}%`,no_hp_user,role,jenis_kelamin,kode_club,status_user,kode_referral,kode_member,username }))
 
             if (halaman && jumlah) {
                 let jml = await sq.query(`select count(*) as total 
                 from "user" u 
                 where u."deletedAt" isnull ${isi}`,
-                    tipe({ id,nama_user: `%${nama_user}%`,no_hp_user,role,jenis_kelamin,kode_club,status_user,kode_referral,kode_member}))
+                    tipe({ id,nama_user: `%${nama_user}%`,no_hp_user,role,jenis_kelamin,kode_club,status_user,kode_referral,kode_member,username}))
 
                 res.status(200).json({ status: 200, message: "sukses", data: data, count: jml[0].total, jumlah, halaman })
             } else {
