@@ -391,7 +391,9 @@ export class Controller {
             await user_m.update({foto_user:f1},{where:{username}})
             res.status(200).json({ status: 200, message: "sukses" })
         } catch (error) {
-            
+            console.log(req.body);
+            console.log(error)
+            res.status(500).json({ status: 500, message: "error", data: error })
         }
     }
 
@@ -419,7 +421,9 @@ export class Controller {
 
 
         } catch (error) {
-            
+            console.log(req.body);
+            console.log(error)
+            res.status(500).json({ status: 500, message: "error", data: error })
         }
     }
 
