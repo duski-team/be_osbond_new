@@ -258,14 +258,18 @@ export class Controller {
 
             
 
-            let usernya = await sq.query(`select * from "user" u where u."deletedAt" isnull and u.username= '${username}'`)
+            let usernya = await sq.query(`select * from "user" u where u."deletedAt" isnull and u.username= '${username}'`,tipe())
 
             if (usernya.length) {
-                await user_m.update({ password: hashPassword(password_baru) }, { where: { id: usernya[0][0].id } })
+                await user_m.update({ password: hashPassword(password_baru) }, { where: { id: usernya[0].id } })
             }
-            if (id) {
+            else if (id) {
                 await user_m.update({ password: hashPassword(password_baru) }, { where: { id } })
             }
+            else{
+                return  res.status(201).json({ status: 204, message: "user belum registrasi" })
+            }
+
 
             res.status(200).json({ status: 200, message: "sukses" })
         } catch (error) {
