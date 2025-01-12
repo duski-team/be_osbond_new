@@ -6,7 +6,7 @@ import { comparePassword, hashPassword } from '../../helper/bcrypt.js'
 import { generateToken } from '../../helper/jwt.js';
 import { nanoid } from 'nanoid'
 import moment from 'moment';
-import referall from '../referral/model.js';
+import referral from '../referral/model.js';
 
 moment.updateLocale('id', {/**/ });
 moment.locale("id")
@@ -65,7 +65,7 @@ export class Controller {
         }
     }
     static async register(req, res) {
-        const { username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member,kode_referall_tujuan } = req.body;
+        const { username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member,kode_referral_tujuan } = req.body;
 
         let no_hp_08 = username
         let b = no_hp_08.slice(0,2)
@@ -132,10 +132,10 @@ export class Controller {
                 
                 
 
-                if(kode_referall_tujuan){
-                    let user_referall=await sq.query(`select * from "user" u where u."deletedAt" isnull and u.kode_referral = '${kode_referall_tujuan}'`,tipe())
-                    if(user_referall.length){
-                        await referall.create({ id: nanoid(14), pengguna_referall_id:hasil.id, kode_referall:kode_referall_tujuan, tanggal_referall:moment(),user_referall_id:user_referall[0].id })
+                if(kode_referral_tujuan){
+                    let user_referral=await sq.query(`select * from "user" u where u."deletedAt" isnull and u.kode_referral = '${kode_referral_tujuan}'`,tipe())
+                    if(user_referral.length){
+                        await referral.create({ id: nanoid(14), pengguna_referral_id:hasil.id, kode_referral:kode_referral_tujuan, tanggal_referral:moment(),user_referral_id:user_referral[0].id })
                     }
                     res.status(200).json({ status: 200, message: "sukses", data: hasil })
                   
