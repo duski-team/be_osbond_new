@@ -9,6 +9,8 @@ import moment from 'moment';
 import referral from '../referral/model.js';
 import kirim_notif from '../../helper/fcm.js'
 
+
+
 moment.updateLocale('id', {/**/ });
 moment.locale("id")
 
@@ -415,7 +417,7 @@ export class Controller {
 
 
     static async change_username(req,res){
-        const{username_lama,username_baru}=req.body
+        const{username_lama,username_baru,tanggal_lahir}=req.body
         console.log(req.body);
         try {
             let no_hp_08 = username_baru
@@ -427,14 +429,19 @@ export class Controller {
             }
            
             let update = await sq.query(`select * from "user" u where u."deletedAt" isnull and u.username = '${username_lama}'`,tipe())
+            // console.log(update);
+            
 
             if(update.length){
                 let asd = await user_m.update({username:username_baru,no_hp_user:username_baru},{where:{id:update[0].id},returning:true})
 
-                let y = update[0].tanggal_lahir.split('-')
-                let tanggal_string = y[0]+y[1]+y[2]
+                // let y = update[0].tanggal_lahir.split('-')
+                let tanggal_string = moment(update[0].tanggal_lahir).format('YYYYMMDD')
 
                 let update_osbond = await osbond.query(`EXEC APPS_UPDATEGUEST '${update[0].nama_user}','${no_hp_08}','${update[0].alamat_user}','${tanggal_string}','${update[0].email}','${update[0].jenis_kelamin}'`)
+
+                console.log(`EXEC APPS_UPDATEGUEST '${update[0].nama_user}','${no_hp_08}','${update[0].alamat_user}','${tanggal_string}','${update[0].email}','${update[0].jenis_kelamin}'`);
+                
                 
                 const data = asd[1][0].get();
                 res.status(200).json({ status: 200, message: "sukses", data })
