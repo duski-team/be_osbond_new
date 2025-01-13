@@ -396,6 +396,7 @@ export class Controller {
 
     static async list_pembelian_pt(req,res){
         const{username}=req.body
+// console.log('asd');
 
         let no_hp_08 = username
         let b = no_hp_08.slice(0,2)
@@ -404,8 +405,24 @@ export class Controller {
         }
 
         try {
+            // console.log(`select * from APPS_PT_HIST ('${no_hp_08}')`);
+            
             let asd = await osbond.query(`select * from APPS_PT_HIST ('${no_hp_08}')`)
+            // console.log(asd);
+            let qwe = await osbond.query(`SELECT * FROM APPS_LISTCLUB()`)
+            let club = qwe.recordset
             let data = asd.recordset
+            // console.log(data);
+            
+            data.forEach(el => {
+                for (let i = 0; i < club.length; i++) {
+                    if (el.CLUB == club[i].club_id){   
+                       el.nama_club=club[i].nama_club
+                    }
+                    
+                }
+            });
+
             res.status(200).json({ status: 200, message: "sukses", data })
         } catch (error) {
             console.log(error)
