@@ -103,8 +103,10 @@ export class Controller {
                 
             // let status_user = 2
             let [hasil, created] = await user_m.findOrCreate({ where: { username: username }, defaults: { id: nanoid(20), password: hashPassword(password ? password : "123"), username,email,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user:f1,kode_referral:kode, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member,token_mobile} })
-            // console.log(hasil, created)
+            console.log(hasil, created)
 
+            // let created=true
+            // let hasil ='abc'
           
             if (!created) {
                 res.status(201).json({ status: 204, message: "username sudah terdaftar" })
@@ -112,15 +114,24 @@ export class Controller {
                 // console.log('else');
                 
 
-                if(kode_member){
+                if(!kode_member){
+                    // console.log('tanpa kode member');
+                    
+                    console.log(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_string}','${email}','${jenis_kelamin}'`);
                     let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_string}','${email}','${jenis_kelamin}'`)
-                }
-                else{
+                    console.log(sync);
+                    
+
                     console.log(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`);
-                    // let trial= await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
-                   
+                    let trial= await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
+                    console.log(trial);
                     
                 }
+          
+                
+                   
+                    
+              
                 
               
                
