@@ -159,7 +159,10 @@ export class Controller {
             no_hp_08 = '0' + no_hp_08.slice(2)
         }
 
-            let update_osbond = await osbond.query(`EXEC APPS_UPDATEGUEST '${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_lahir}','${email}','${jenis_kelamin}'`)
+        let y = tanggal_lahir.split('-')
+        let tanggal_string = y[0]+y[1]+y[2]
+
+            let update_osbond = await osbond.query(`EXEC APPS_UPDATEGUEST '${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_string}','${email}','${jenis_kelamin}'`)
 
             // if(update_osbond.recordset){
                 let update = await user_m.update({username,email,password,nama_user,no_hp_user,tanggal_lahir,alamat_user,jenis_kelamin,role,nick_name,status_user,nama_bank,cabang_bank,atas_nama_bank,no_rekening,foto_user,kode_referral, nip,kode_otp,expired_otp,nik,emergency_contact,emergency_contact_name,kode_club,nama_club,kode_member,token_mobile},{where:{id},returning:true})
@@ -422,11 +425,16 @@ export class Controller {
             if (b == '62') {
                 no_hp_08 = '0' + no_hp_08.slice(2)
             }
+           
             let update = await sq.query(`select * from "user" u where u."deletedAt" isnull and u.username = '${username_lama}'`,tipe())
 
             if(update.length){
                 let asd = await user_m.update({username:username_baru,no_hp_user:username_baru},{where:{id:update[0].id},returning:true})
-                let update_osbond = await osbond.query(`EXEC APPS_UPDATEGUEST '${update[0].nama_user}','${no_hp_08}','${update[0].alamat_user}','${update[0].tanggal_lahir}','${update[0].email}','${update[0].jenis_kelamin}'`)
+
+                let y = update[0].tanggal_lahir.split('-')
+                let tanggal_string = y[0]+y[1]+y[2]
+
+                let update_osbond = await osbond.query(`EXEC APPS_UPDATEGUEST '${update[0].nama_user}','${no_hp_08}','${update[0].alamat_user}','${tanggal_string}','${update[0].email}','${update[0].jenis_kelamin}'`)
                 
                 const data = asd[1][0].get();
                 res.status(200).json({ status: 200, message: "sukses", data })
