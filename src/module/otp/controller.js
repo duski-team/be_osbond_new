@@ -57,7 +57,7 @@ export class Controller{
                   'content-type': 'application/json'
                 },
                 body: JSON.stringify({
-                  msisdn: ['6289506373551','6281215540280'],
+                  msisdn: '6289506373551',
                   otp: otp,
                   lang_code: 'en_US',
                   template_name: 'otp_auth'
