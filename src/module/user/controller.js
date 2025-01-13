@@ -115,9 +115,15 @@ export class Controller {
                 if(kode_member){
                     let sync = await osbond.query(`EXEC APPS_CREATEGUEST '${kode_club}','${nama_user}','${no_hp_08}','${alamat_user}','${tanggal_string}','${email}','${jenis_kelamin}'`)
                 }
+                else{
+                    console.log(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`);
+                    // let trial= await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
+                   
+                    
+                }
                 
               
-                // let trial= await osbond.query(`EXEC APPS_CREATETRIAL7DAYS '${kode_club}','${no_hp_08}'`)
+               
 
                 // console.log(sync,'ini sync');
                 // console.log(trial,'trial');
@@ -346,8 +352,8 @@ export class Controller {
         const{parameter,jumlah,halaman}=req.body
 
         try {
-            let asd = await osbond.query(`EXEC APPS_LISTMEMBER '${parameter}','${jumlah}','${halaman}'`)
-            console.log(`EXEC APPS_LISTMEMBER '${parameter}','${jumlah}','${halaman}'`);
+            let asd = await osbond.query(`EXEC APPS_LISTUSER '${parameter}','${jumlah}','${halaman}'`)
+            // console.log(`EXEC APPS_LISTMEMBER '${parameter}','${jumlah}','${halaman}'`);
             
             let data = asd.recordset
             res.status(200).json({ status: 200, message: "sukses", data })
